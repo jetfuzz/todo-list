@@ -3,10 +3,19 @@ import * as todoManager from "./todoManager.js";
 import * as DOMController from "./domController.js"
 // import { addDays } from "date-fns";
 
+let allBtn = document.getElementById("all-btn")
 
-let project = todoManager.addProject("Test Project");
-todoManager.addTask(project, "Test Task", "Description", "2025-06-01", "high");
-console.log(project);
 
-todoManager.editTask(project, 1, "priority", "medium");
-console.log(project.tasks[0]);
+let defaultProject = todoManager.addProject("Test Project");
+let secondProject = todoManager.addProject("Second Project");
+todoManager.addTask(defaultProject, "Test Task", "Description", "2025-06-01", "high");
+todoManager.addTask(defaultProject, "Another Task", "Yes", "2025-06-01", "medium");
+todoManager.addTask(secondProject, "This Task", "Okay", "2025-06-02", "low")
+
+console.log(todoManager.projectArr);
+
+
+allBtn.addEventListener("click", () => {
+    DOMController.clearTasks();
+    DOMController.displayAllTasks(todoManager.projectArr);
+})
