@@ -1,6 +1,7 @@
 import "./style.css";
-import * as todoManager from './todoManager.js';
-import { addDays } from 'date-fns';
+import * as todoManager from "./todoManager.js";
+import * as DOMController from "./domController.js"
+// import { addDays } from "date-fns";
 
 
 let project = todoManager.addProject("Test Project");
