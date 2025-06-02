@@ -77,7 +77,6 @@ nav {
     flex-direction: column;
     min-height: 100vh;
     width: 260px;
-    /* border: 1px solid black; */
     padding: 0 4px;
 }
 
@@ -91,21 +90,18 @@ nav > button {
     cursor: pointer;
     margin: 0 6px;
     transition: all 0.2s;
-    /* border: 1px solid black; */
-
 }
 
 nav > button:hover {
     background-color: rgb(233, 233, 233);
 }
 
-.add-task-btn {
+#add-task-btn {
     font-weight: 600;
     margin: 8px 0;
 }
 
 .projects-header {
-    /* border: 1px solid black; */
     display: flex;
     justify-content: space-between;
     padding: 0 10px;
@@ -125,6 +121,32 @@ nav > button:hover {
     background-color: rgb(233, 233, 233);
 }
 
+.project-div {
+    background-color: #FCFAF8;
+    display: flex;
+    flex-direction: row;
+    border-radius: 6px;
+    padding: 12px 10px;
+    margin: 0 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.project-div:hover {
+    background-color: rgb(233, 233, 233);
+}
+
+.project-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.project-info {
+    display: flex;
+    margin-left: auto;
+}
+
 /* tasks */
 
 #content {
@@ -136,8 +158,6 @@ nav > button:hover {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    /* align-items: center; */
-    /* border: 1px solid black; */
 }
 
 .task-count {
@@ -181,7 +201,7 @@ nav > button:hover {
     margin: 2px;
 }
 
-.task-info > img:hover {
+.task-edit:hover, .task-delete:hover {
     transform: scale(1.1);
 }
 
