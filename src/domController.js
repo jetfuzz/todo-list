@@ -1,6 +1,7 @@
 export { clearTasks, displayTasks, displayAllTasks, clearProjects, displayProjects };
 import editSvg from "./images/edit-2-svgrepo-com.svg";
 import deleteSvg from "./images/delete-svgrepo-com.svg";
+import { format } from "date-fns";
 
 function clearTasks() {
     let contentDiv = document.getElementById("content");
@@ -89,4 +90,15 @@ function  displayProjects(projects) {
         projectDiv.appendChild(projectInfo);
         nav.appendChild(projectDiv);
     });
+}
+
+
+function openModal(projects) {
+    let addTaskBtn = document.getElementById("add-task-btn");
+    let modal = document.getElementById("modal");
+    
+}
+
+function displayAddTaskModal() {
+    //foreach project in projectsArr, create and display title as select option
 }

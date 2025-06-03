@@ -61,6 +61,12 @@ allBtn.addEventListener("click", () => {
     currentProject = null;
 })
 
+//today tasks
+
+
+//week tasks
+
+
 
 //project events
 //switch project displayed
@@ -85,9 +91,9 @@ navDiv.addEventListener("click", (e) => {
 
 
 //task events
-//edit
+//edit task
 
-//delete
+//delete task
 contentDiv.addEventListener("click", (e) => {
     if(e.target.className === "task-delete") {
         let taskDiv = e.target.closest('.task');
@@ -99,3 +105,16 @@ contentDiv.addEventListener("click", (e) => {
         displayCurrentView();
     }
 })
+
+let modal = document.getElementById("modal");
+let modalCloseBtns = document.querySelectorAll(".modal-close");
+
+addTaskBtn.addEventListener("click", () => {
+    modal.showModal();
+})
+
+for (let i = 0; i < modalCloseBtns.length; i++) {
+    modalCloseBtns[i].addEventListener("click", () => {
+        modal.close();
+    })
+}

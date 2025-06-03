@@ -20,18 +20,52 @@
                 <h3>Projects</h3>
                 <button class="add-project-btn">+</button>
             </div>
-            <!-- <div class="project-div">
-                <button class="project-btn"># Home</button>
-                <div class="project-info">
-                    <img src="./images/edit-2-svgrepo-com.svg" alt="edit project" class="task-edit">
-                    <img src="./images/delete-svgrepo-com.svg" alt="" class="task-delete">
-                </div>
-            </div> -->
         </nav>
         <div id="content">
             <h2 class="current-project">Home</h2>
             <h3 class="task-count">Tasks ()</h3>
         </div>
     </div>
+    <dialog id="modal">
+            <div class="modal-header">
+                <h2 id="modal-title">Add Task</h2>
+                <button id="modal-close" class="modal-close">&times;</button>
+            </div>
+            <hr>
+            <form action="#" id="modal-form">
+                <label for="form-title">Title *</label>
+                <input type="text" name="form-title" id="form-title" placeholder="Enter task title" required>
+
+                <label for="form-desc">Description</label>
+                <textarea type="text" name="form-desc" id="form-desc" placeholder="Enter task description (optional)" rows="3"></textarea>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-date">Due Date</label>
+                        <input type="date" name="form-date" id="form-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="form-prio">Priority</label>
+                        <select name="form-prio" id="form-prio" autocomplete="off">
+                            <option value="high">High</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label for="form-project">Project</label>
+                <select name="form-project" id="form-project">
+                    <option value="p1">Project 1</option>
+                    <option value="p2">Project 2</option>
+                    <option value="p3">Project 3</option>
+                </select>
+                <hr>
+                <div class="modal-actions">
+                    <button type="button" id="modal-cancel" class="modal-close">Cancel</button>
+                    <button type="submit" id="modal-submit">Add</button>
+                </div>
+            </form>
+    </dialog>
 </body>
 </html>

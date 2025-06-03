@@ -205,6 +205,135 @@ nav > button:hover {
     transform: scale(1.1);
 }
 
+/* modal */
+
+#modal {
+    border: none;
+    border-radius: 10px;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    top: 120px;
+    right: 0;
+    bottom: 0;
+    left: 50px;
+    z-index: 10040;
+    overflow: auto;
+    overflow-y: auto;
+    width: 500px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    /* max-width: 600px; */
+}
+
+#modal::backdrop {
+    background: rgba(255, 255, 255, 0.4);
+    /* backdrop-filter: blur(1px); */
+}
+
+
+.modal-header {
+    padding: 20px 18px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+    color: white;
+    background-color: rgba(175, 31, 31, 0.685);
+}
+
+#modal-close {
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center; 
+    color: white;
+}
+
+.modal-header > button {
+    border: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-radius: 24px;
+}
+
+#modal-form {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 18px;
+    margin: 0;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 49%;
+}
+
+select {
+    background: none;
+    cursor: pointer;
+}
+
+label {
+    margin-bottom: 4px;
+}
+
+input, select, textarea {
+    margin-bottom: 20px;
+    padding: 6px;
+    border: 1px solid rgb(220, 220, 220);
+    border-radius: 6px;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #6b6b6b;
+    box-shadow: 0 0 0 2px rgba(107, 107, 107, 0.15);
+}
+
+#form-project {
+    margin-bottom: 40px;
+}
+
+hr {
+    border-color: rgba(240, 240, 240, 0.4);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+}
+
+
+#modal-cancel, #modal-submit {
+    border: none;
+    border-radius: 6px;
+    padding: 6px 18px; 
+    cursor: pointer;
+}
+
+#modal-submit {
+    margin-left: 10px;
+    background-color: rgba(175, 31, 31, 0.685);
+    color: white;
+}
+
+#modal-submit:hover {
+    background-color: rgba(175, 31, 31, 0.829)
+}
+
+
+
 /* breakpoints */
 
 @media (max-width: 768px) {
