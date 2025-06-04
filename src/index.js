@@ -6,7 +6,7 @@ import { format, addDays } from "date-fns";
 //create default project
 let defaultProject = todoManager.addProject("Test Project");
 
-//placeholder projects + tasks for testing 
+//placeholder projects + tasks 
 let secondProject = todoManager.addProject("Second Project");
 let thirdProject = todoManager.addProject("Third Project")
 todoManager.addTask(defaultProject, "Test Task", "Description", format(new Date(), "yyyy-MM-dd"), "high");
@@ -18,21 +18,26 @@ todoManager.addTask(thirdProject, "Yet Another Task", "", format(addDays(new Dat
 DOMController.displayAllTasks(todoManager.projectArr);
 DOMController.displayProjects(todoManager.projectArr);
 
-//dom elements
 let contentDiv = document.getElementById("content");
 let navDiv = document.getElementById("nav");
 
-let addTaskBtn = document.getElementById("add-task-btn");
 let allBtn = document.getElementById("all-btn");
 let todayBtn = document.getElementById("today-btn");
 let weekBtn = document.getElementById("week-btn");
 
+let modal = document.getElementById("modal");
+let form = document.getElementById("modal-form");
 
-//track last clicked navigation tab when user edits/deletes a task
+let addTaskBtn = document.getElementById("add-task-btn");
+
+//store last clicked navigation tab
 let currentView = "all";
 let currentProject = null;
 
-//display the current view/project after task edit
+//state tracking variable for displaying correct modal
+let modalMode;
+
+//display the correct navigation tab/project after editing/deleting a task
 function displayCurrentView() {
     if (currentProject === null) {
         if (currentView === "all") {
@@ -49,10 +54,7 @@ function displayCurrentView() {
     } 
 }
 
-
-//nav events
-//add task
-
+//nav tabs
 //all tasks
 allBtn.addEventListener("click", () => {
     DOMController.clearTasks();
@@ -66,6 +68,45 @@ allBtn.addEventListener("click", () => {
 
 //week tasks
 
+//task events
+//delete task
+contentDiv.addEventListener("click", (e) => {
+    if(e.target.className === "task-delete") {
+        let taskDiv = e.target.closest('.task');
+        let taskId = parseInt(taskDiv.dataset.taskId);
+        let projectId = parseInt(taskDiv.dataset.projectId);
+        let project = todoManager.projectArr.find((project) => project.id === projectId);
+        todoManager.deleteTask(project, taskId);
+        DOMController.clearTasks();
+        displayCurrentView();
+    }
+})
+
+//add task
+addTaskBtn.addEventListener("click", () => {
+    modalMode = "Add"
+    DOMController.displayTaskModal("Add", todoManager.projectArr);
+    modal.showModal();
+})
+
+//handle form event based on current modalMode
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let title = document.getElementById("form-title").value;
+    let desc = document.getElementById("form-desc").value;
+    let dueDate = document.getElementById("form-date").value;
+    let prio = document.getElementById("form-prio").value;
+    let projectId = parseInt(document.getElementById("form-project").value);
+    let project = todoManager.projectArr.find((project) => project.id === projectId);
+    if (modalMode === "Add") {
+        todoManager.addTask(project, title, desc, dueDate, prio);
+    } else if (modalMode === "Edit") {
+        //edit task
+    }
+    modal.close();
+    DOMController.clearTasks();
+    displayCurrentView();
+})
 
 
 //project events
@@ -81,40 +122,17 @@ navDiv.addEventListener("click", (e) => {
     }
 })
 
-//add project
 
 
-//edit project
-
-
-//delete project
-
-
-//task events
-//edit task
-
-//delete task
-contentDiv.addEventListener("click", (e) => {
-    if(e.target.className === "task-delete") {
-        let taskDiv = e.target.closest('.task');
-        let taskId = parseInt(taskDiv.dataset.taskId);
-        let projectId = parseInt(taskDiv.dataset.projectId);
-        let project = todoManager.projectArr.find((project) => project.id === projectId);
-        todoManager.deleteTask(project, taskId);
-        DOMController.clearTasks();
-        displayCurrentView();
+//close modal events
+modal.addEventListener("click", (e) => {
+    if (e.target.className === "modal-close") {
+        modal.close();
     }
 })
 
-let modal = document.getElementById("modal");
-let modalCloseBtns = document.querySelectorAll(".modal-close");
-
-addTaskBtn.addEventListener("click", () => {
-    modal.showModal();
-})
-
-for (let i = 0; i < modalCloseBtns.length; i++) {
-    modalCloseBtns[i].addEventListener("click", () => {
+document.addEventListener('click', (e) => {
+    if (e.target === modal) {
         modal.close();
-    })
-}
+    }
+});

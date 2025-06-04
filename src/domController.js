@@ -1,7 +1,6 @@
-export { clearTasks, displayTasks, displayAllTasks, clearProjects, displayProjects };
+export { clearTasks, displayTasks, displayAllTasks, clearProjects, displayProjects, displayTaskModal };
 import editSvg from "./images/edit-2-svgrepo-com.svg";
 import deleteSvg from "./images/delete-svgrepo-com.svg";
-import { format } from "date-fns";
 
 function clearTasks() {
     let contentDiv = document.getElementById("content");
@@ -92,13 +91,42 @@ function  displayProjects(projects) {
     });
 }
 
+function displayTaskModal(action, projects) {
+    let form = document.getElementById("modal-form");
+    let projectsHTML = "";
+    projects.forEach(project => {
+        projectsHTML += `<option value="${project.id}">${project.name}</option>`;
+    })
+    form.innerHTML = `
+        <label for="form-title">Title *</label>
+        <input type="text" name="form-title" id="form-title" placeholder="Enter task title" required>
 
-function openModal(projects) {
-    let addTaskBtn = document.getElementById("add-task-btn");
-    let modal = document.getElementById("modal");
-    
-}
+        <label for="form-desc">Description</label>
+        <textarea type="text" name="form-desc" id="form-desc" placeholder="Enter task description (optional)" rows="3"></textarea>
 
-function displayAddTaskModal() {
-    //foreach project in projectsArr, create and display title as select option
+        <div class="form-row">
+            <div class="form-group">
+                <label for="form-date">Due Date</label>
+                <input type="date" name="form-date" id="form-date" required>
+            </div>
+            <div class="form-group">
+                <label for="form-prio">Priority</label>
+                <select name="form-prio" id="form-prio" autocomplete="off">
+                     <option value="high">High</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+        </div>
+
+        <label for="form-project">Project</label>
+        <select name="form-project" id="form-project">
+        ${projectsHTML}
+        </select>
+        <hr>
+        <div class="modal-actions">
+            <button type="button" id="modal-cancel" class="modal-close">Cancel</button>
+            <button type="submit" id="modal-${action}" class="modal-submit">${action}</button>
+        </div>
+    `;
 }
