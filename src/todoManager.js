@@ -1,4 +1,4 @@
-export { projectArr, Task, Project, addTask, editTask, deleteTask, addProject, editProject, deleteProject };
+export { projectArr, Task, Project, addTask, editTask, deleteTask, moveTask, addProject, editProject, deleteProject };
 
 let TaskCounter = 1;
 let ProjectCounter = 1;
@@ -41,6 +41,15 @@ function deleteTask(project, id) {
     if (index > -1) {
         project.tasks.splice(index, 1);
     }
+}
+
+function moveTask(oldProject, newProject, id) {
+    let task = oldProject.tasks.find((task) => task.id === id);
+    let index = oldProject.tasks.indexOf(task);
+    if (index > -1) {
+        oldProject.tasks.splice(index, 1);
+    }
+    newProject.tasks.push(task);
 }
 
 function addProject(projectName) {

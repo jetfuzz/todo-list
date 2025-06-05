@@ -93,10 +93,14 @@ function  displayProjects(projects) {
 
 function displayTaskModal(action, projects) {
     let form = document.getElementById("modal-form");
+    let modalTitle = document.getElementById("modal-title");
+    modalTitle.textContent = `${action} Task`
+
     let projectsHTML = "";
     projects.forEach(project => {
         projectsHTML += `<option value="${project.id}">${project.name}</option>`;
     })
+
     form.innerHTML = `
         <label for="form-title">Title *</label>
         <input type="text" name="form-title" id="form-title" placeholder="Enter task title" required>
