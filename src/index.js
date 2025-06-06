@@ -29,6 +29,7 @@ let modal = document.getElementById("modal");
 let form = document.getElementById("modal-form");
 
 let addTaskBtn = document.getElementById("add-task-btn");
+let addProjectBtn = document.getElementById("add-project-btn");
 
 //store last clicked navigation tab
 let currentView = "all";
@@ -57,6 +58,16 @@ function displayCurrentView() {
     } 
 }
 
+function getTaskFromEvent(e) {
+    let taskDiv = e.target.closest('.task');
+    let taskId = parseInt(taskDiv.dataset.taskId);
+    let projectId = parseInt(taskDiv.dataset.projectId);
+    let project = todoManager.projectArr.find((project) => project.id === projectId);
+    let task = project.tasks.find((task) => task.id === taskId);
+
+    return { task, project, taskId, projectId }
+}
+
 //nav tabs
 //all tasks
 allBtn.addEventListener("click", () => {
@@ -71,17 +82,20 @@ allBtn.addEventListener("click", () => {
 
 //week tasks
 
-//task events
 
-function getTaskFromEvent(e) {
-    let taskDiv = e.target.closest('.task');
-    let taskId = parseInt(taskDiv.dataset.taskId);
-    let projectId = parseInt(taskDiv.dataset.projectId);
-    let project = todoManager.projectArr.find((project) => project.id === projectId);
-    let task = project.tasks.find((task) => task.id === taskId);
+//handle current project in view
+navDiv.addEventListener("click", (e) => {
+    let projectDiv = e.target.closest(".project-div");
+    if (projectDiv) {
+        let projectId = parseInt(projectDiv.dataset.projectId);
+        currentProject = projectId;
+        let project = todoManager.projectArr.find((project) => project.id === projectId);
+        DOMController.clearTasks();
+        DOMController.displayTasks(project);
+    }
+})
 
-    return { task, project, taskId, projectId }
-}
+
 
 //delete task
 contentDiv.addEventListener("click", (e) => {
@@ -95,7 +109,7 @@ contentDiv.addEventListener("click", (e) => {
 
 //add task
 addTaskBtn.addEventListener("click", () => {
-    modalMode = "Add";
+    modalMode = "addTask";
     DOMController.displayTaskModal("Add", todoManager.projectArr);
     modal.showModal();
 })
@@ -103,15 +117,11 @@ addTaskBtn.addEventListener("click", () => {
 //edit task
 contentDiv.addEventListener("click", (e) => {
     if(e.target.className === "task-edit") {
-        modalMode = "Edit";
+        modalMode = "editTask";
         DOMController.displayTaskModal("Edit", todoManager.projectArr);
         let { project, task } = getTaskFromEvent(e);
         currentTask = {};
-        currentTask = {
-            id: task.id,
-            project: project
-        }
-        
+        currentTask = { id: task.id, project: project }
         //fill form values with current task info
         document.getElementById("form-title").value = task.title;
         document.getElementById("form-date").value = task.dueDate;
@@ -123,22 +133,35 @@ contentDiv.addEventListener("click", (e) => {
             document.getElementById("form-desc").value = "";
         }
         modal.showModal();
-        
     }
 })
 
-//handle form submit based on current modalMode
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
+//add project
+addProjectBtn.addEventListener("click", () => {
+    modalMode = "addProject";
+    DOMController.displayProjectModal("Add")
+    modal.showModal();
+})
+
+function getFormValues() {
     let title = document.getElementById("form-title").value;
     let desc = document.getElementById("form-desc").value;
     let dueDate = document.getElementById("form-date").value;
     let priority = document.getElementById("form-prio").value;
     let projectId = parseInt(document.getElementById("form-project").value);
     let project = todoManager.projectArr.find((project) => project.id === projectId);
-    if (modalMode === "Add") {
+
+    return { title, desc, dueDate, priority, projectId, project }
+}
+
+//handle form submit based on current modalMode
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (modalMode === "addTask") {
+        let { project, title, desc, dueDate, priority } = getFormValues();
         todoManager.addTask(project, title, desc, dueDate, priority);
-    } else if (modalMode === "Edit") {
+    } else if (modalMode === "editTask") {
+        let { project, title, desc, dueDate, priority } = getFormValues();
         let taskId = currentTask.id;
         let currentProject = currentTask.project;
         if (currentProject != project) {
@@ -148,27 +171,18 @@ form.addEventListener("submit", (e) => {
         todoManager.editTask(project, taskId, "desc", desc);
         todoManager.editTask(project, taskId, "dueDate", dueDate);
         todoManager.editTask(project, taskId, "priority", priority);
+    } else if (modalMode === "addProject") {
+        let title = document.getElementById("form-title").value;
+        todoManager.addProject(title);
+        DOMController.clearProjects();
+        DOMController.displayProjects(todoManager.projectArr);
+    } else if (modalMode === "editProject") {
+
     }
     modal.close();
     DOMController.clearTasks();
     displayCurrentView();
 })
-
-
-//project events
-//switch project displayed
-navDiv.addEventListener("click", (e) => {
-    let projectDiv = e.target.closest(".project-div");
-    if (projectDiv) {
-        let projectId = parseInt(projectDiv.dataset.projectId);
-        currentProject = projectId;
-        let project = todoManager.projectArr.find((project) => project.id === projectId);
-        DOMController.clearTasks();
-        DOMController.displayTasks(project);
-    }
-})
-
-
 
 //close modal events
 modal.addEventListener("click", (e) => {

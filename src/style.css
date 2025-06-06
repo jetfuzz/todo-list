@@ -147,6 +147,19 @@ nav > button:hover {
     margin-left: auto;
 }
 
+.project-edit, .project-delete {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    /* transition: all 0.2s; */
+    margin: 2px;
+}
+
+.project-edit:hover, .project-delete:hover {
+    transform: scale(1.1);
+}
+
+
 /* tasks */
 
 #content {
@@ -308,7 +321,7 @@ hr {
     border-color: rgba(240, 240, 240, 0.4);
 }
 
-.modal-actions {
+.form-actions {
     display: flex;
     justify-content: end;
     margin-top: 20px;

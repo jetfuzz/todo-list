@@ -1,4 +1,4 @@
-export { clearTasks, displayTasks, displayAllTasks, clearProjects, displayProjects, displayTaskModal };
+export { clearTasks, displayTasks, displayAllTasks, clearProjects, displayProjects, displayTaskModal, displayProjectModal };
 import editSvg from "./images/edit-2-svgrepo-com.svg";
 import deleteSvg from "./images/delete-svgrepo-com.svg";
 
@@ -73,14 +73,14 @@ function  displayProjects(projects) {
         projectBtn.innerHTML = `# ${project.name}`
 
         let projectInfo = document.createElement("div");
-        projectInfo.className = "task-info";
+        projectInfo.className = "project-info";
 
         let projectEdit = document.createElement("img");
-        projectEdit.className = "task-edit";
+        projectEdit.className = "project-edit";
         projectEdit.src = editSvg;
 
         let projectDelete = document.createElement("img");
-        projectDelete.className = "task-delete";
+        projectDelete.className = "project-delete";
         projectDelete.src = deleteSvg;
 
         projectInfo.appendChild(projectEdit);
@@ -128,9 +128,24 @@ function displayTaskModal(action, projects) {
         ${projectsHTML}
         </select>
         <hr>
-        <div class="modal-actions">
+        <div class="form-actions">
             <button type="button" id="modal-cancel" class="modal-close">Cancel</button>
             <button type="submit" id="modal-${action}" class="modal-submit">${action}</button>
         </div>
     `;
+}
+
+function displayProjectModal(action) {
+    let form = document.getElementById("modal-form");
+    let modalTitle = document.getElementById("modal-title");
+    modalTitle.textContent = `${action} Project`
+    form.innerHTML = `
+        <label for="form-title">Name *</label>
+        <input type="text" name="form-title" id="form-title" placeholder="Enter project title" required>
+        <hr>
+        <div class="form-actions">
+            <button type="button" id="modal-cancel" class="modal-close">Cancel</button>
+            <button type="submit" id="modal-${action}" class="modal-submit">${action}</button>
+        </div>
+    `
 }
