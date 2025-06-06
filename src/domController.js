@@ -1,6 +1,7 @@
 export { clearTasks, displayTasks, displayAllTasks, clearProjects, displayProjects, displayTaskModal, displayProjectModal };
 import editSvg from "./images/edit-2-svgrepo-com.svg";
 import deleteSvg from "./images/delete-svgrepo-com.svg";
+import projectSvg from "./images/task-list-svgrepo-com.svg";
 
 function clearTasks() {
     let contentDiv = document.getElementById("content");
@@ -68,9 +69,13 @@ function  displayProjects(projects) {
         projectDiv.className = "project-div";
         projectDiv.dataset.projectId = project.id;
 
+        let projectIcon = document.createElement("img");
+        projectIcon.className = "project-icon";
+        projectIcon.src = projectSvg;
+
         let projectBtn = document.createElement("button");
         projectBtn.className = "project-btn";
-        projectBtn.innerHTML = `# ${project.name}`
+        projectBtn.innerHTML = `${project.name}`
 
         let projectInfo = document.createElement("div");
         projectInfo.className = "project-info";
@@ -85,6 +90,7 @@ function  displayProjects(projects) {
 
         projectInfo.appendChild(projectEdit);
         projectInfo.appendChild(projectDelete);
+        projectDiv.appendChild(projectIcon);
         projectDiv.appendChild(projectBtn);
         projectDiv.appendChild(projectInfo);
         nav.appendChild(projectDiv);

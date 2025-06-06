@@ -31,6 +31,8 @@ let form = document.getElementById("modal-form");
 let addTaskBtn = document.getElementById("add-task-btn");
 let addProjectBtn = document.getElementById("add-project-btn");
 
+let currentProjectTitle = document.querySelector(".current-project");
+
 //store last clicked navigation tab
 let currentView = "all";
 let currentProject = null;
@@ -71,6 +73,7 @@ function getTaskFromEvent(e) {
 //nav tabs
 //all tasks
 allBtn.addEventListener("click", () => {
+    currentProjectTitle.textContent = "All" 
     DOMController.clearTasks();
     DOMController.displayAllTasks(todoManager.projectArr);
     currentView = "all";
@@ -78,12 +81,16 @@ allBtn.addEventListener("click", () => {
 })
 
 //today tasks
-
+todayBtn.addEventListener("click", () => {
+    
+})
 
 //week tasks
+weekBtn.addEventListener("click", () => {
+    
+})
 
-
-//handle current project in view
+//change current project in view
 navDiv.addEventListener("click", (e) => {
     let projectDiv = e.target.closest(".project-div");
     if (projectDiv) {
@@ -92,6 +99,7 @@ navDiv.addEventListener("click", (e) => {
         let project = todoManager.projectArr.find((project) => project.id === projectId);
         DOMController.clearTasks();
         DOMController.displayTasks(project);
+        currentProjectTitle.textContent = project.name;
     }
 })
 
