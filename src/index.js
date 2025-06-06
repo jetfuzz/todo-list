@@ -32,6 +32,7 @@ let addTaskBtn = document.getElementById("add-task-btn");
 let addProjectBtn = document.getElementById("add-project-btn");
 
 let currentProjectTitle = document.querySelector(".current-project");
+let currentTaskCountPara = document.querySelector(".task-count");
 
 //store last clicked navigation tab
 let currentView = "all";
@@ -70,10 +71,30 @@ function getTaskFromEvent(e) {
     return { task, project, taskId, projectId }
 }
 
+function getAllTaskCount() {
+    let taskCount = 0;
+    todoManager.projectArr.forEach(project => {
+        project.tasks.forEach(task => {
+            taskCount++
+        })
+    });
+    return taskCount;
+}
+
+function getProjectTaskCount(project) {
+    let taskCount = 0;
+    project.tasks.forEach(task => {
+        taskCount++
+    });
+    return taskCount;
+}
+
 //nav tabs
 //all tasks
 allBtn.addEventListener("click", () => {
+    let taskCount = getAllTaskCount();
     currentProjectTitle.textContent = "All" 
+    currentTaskCountPara.textContent = `${taskCount} Tasks`
     DOMController.clearTasks();
     DOMController.displayAllTasks(todoManager.projectArr);
     currentView = "all";
@@ -99,7 +120,10 @@ navDiv.addEventListener("click", (e) => {
         let project = todoManager.projectArr.find((project) => project.id === projectId);
         DOMController.clearTasks();
         DOMController.displayTasks(project);
+
+        let taskCount = getProjectTaskCount(project);
         currentProjectTitle.textContent = project.name;
+        currentTaskCountPara.textContent = `${taskCount} Tasks`
     }
 })
 
