@@ -1,4 +1,6 @@
-export { clearTasks, displayTasks, displayAllTasks, clearProjects, displayProjects, displayTaskModal, displayProjectModal };
+export { 
+    clearTasks, displayTasks, displayAllTasks, clearProjects, displayProjects, displayTaskModal, displayProjectModal 
+};
 import editSvg from "./images/edit-2-svgrepo-com.svg";
 import deleteSvg from "./images/delete-svgrepo-com.svg";
 import projectSvg from "./images/task-list-svgrepo-com.svg";
@@ -7,43 +9,6 @@ function clearTasks() {
     let contentDiv = document.getElementById("content");
     let existingTasks = contentDiv.querySelectorAll('.task');
     existingTasks.forEach(task => task.remove());
-}
-
-function displayTask() {
-    let taskDiv = document.createElement("div");
-        taskDiv.className = "task";
-        taskDiv.dataset.taskId = task.id;
-        taskDiv.dataset.projectId = project.id;
-
-        let taskCheckbox = document.createElement("div");
-        taskCheckbox.className = "task-checkbox";
-
-        let taskTitle = document.createElement("p");
-        taskTitle.className = "task-title";
-        taskTitle.innerHTML = task.title;
-
-        let taskInfo = document.createElement("div");
-        taskInfo.className = "task-info";
-
-        let taskDate = document.createElement("p");
-        taskDate.className = "task-date";
-        taskDate.innerHTML = task.dueDate;
-
-        let taskEdit = document.createElement("img");
-        taskEdit.className = "task-edit";
-        taskEdit.src = editSvg;
-
-        let taskDelete = document.createElement("img");
-        taskDelete.className = "task-delete";
-        taskDelete.src = deleteSvg;
-
-        taskInfo.appendChild(taskDate);
-        taskInfo.appendChild(taskEdit);
-        taskInfo.appendChild(taskDelete);
-        taskDiv.appendChild(taskCheckbox);
-        taskDiv.appendChild(taskTitle);
-        taskDiv.appendChild(taskInfo);
-        contentDiv.appendChild(taskDiv);
 }
 
 function displayTasks(project) {
@@ -57,13 +22,14 @@ function displayTasks(project) {
 
         let taskCheckbox = document.createElement("div");
         taskCheckbox.className = "task-checkbox";
+        getTaskPriority(task.priority, taskCheckbox);
 
         let taskTitle = document.createElement("p");
         taskTitle.className = "task-title";
         taskTitle.innerHTML = task.title;
 
-        let taskInfo = document.createElement("div");
-        taskInfo.className = "task-info";
+        let taskOptions = document.createElement("div");
+        taskOptions.className = "task-options";
 
         let taskDate = document.createElement("p");
         taskDate.className = "task-date";
@@ -77,12 +43,12 @@ function displayTasks(project) {
         taskDelete.className = "task-delete";
         taskDelete.src = deleteSvg;
 
-        taskInfo.appendChild(taskDate);
-        taskInfo.appendChild(taskEdit);
-        taskInfo.appendChild(taskDelete);
+        taskOptions.appendChild(taskDate);
+        taskOptions.appendChild(taskEdit);
+        taskOptions.appendChild(taskDelete);
         taskDiv.appendChild(taskCheckbox);
         taskDiv.appendChild(taskTitle);
-        taskDiv.appendChild(taskInfo);
+        taskDiv.appendChild(taskOptions);
         contentDiv.appendChild(taskDiv);
     });
 }
@@ -91,6 +57,18 @@ function displayAllTasks(projects) {
     projects.forEach(project => {
         displayTasks(project);
     });
+}
+
+function getTaskPriority(priority, element) {
+    if (priority === "high") {
+        element.style.border="1px solid #f5b5b5";
+    } else if (priority === "medium") {
+        element.style.border="1px solid #ffe08a";
+    } else if (priority === "low") {
+        element.style.border="1px solid #a7e9af";
+    } else {
+        element.style.border="1px solid #ddd";
+    }
 }
 
 function clearProjects() {
