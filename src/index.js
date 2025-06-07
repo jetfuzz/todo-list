@@ -14,10 +14,6 @@ todoManager.addTask(defaultProject, "Another Task", "Yes", format(new Date(), "y
 todoManager.addTask(secondProject, "This Task", "Okay", format(addDays(new Date(), 2), "yyyy-MM-dd"), "low");
 todoManager.addTask(thirdProject, "Yet Another Task", "", format(addDays(new Date(), 8), "yyyy-MM-dd"), "medium");
 
-//display all tasks and projects on page load
-DOMController.displayAllTasks(todoManager.projectArr);
-DOMController.displayProjects(todoManager.projectArr);
-
 let contentDiv = document.getElementById("content");
 let navDiv = document.getElementById("nav");
 
@@ -33,6 +29,13 @@ let addProjectBtn = document.getElementById("add-project-btn");
 
 let currentProjectTitle = document.querySelector(".current-project");
 let currentTaskCountPara = document.querySelector(".task-count");
+
+//display all tasks and projects on page load
+DOMController.displayAllTasks(todoManager.projectArr);
+DOMController.displayProjects(todoManager.projectArr);
+let taskCount = getAllTaskCount();
+currentProjectTitle.textContent = "All";
+currentTaskCountPara.textContent = `${taskCount} Tasks`;
 
 //store last clicked navigation tab
 let currentView = "all";
@@ -93,8 +96,8 @@ function getProjectTaskCount(project) {
 //all tasks
 allBtn.addEventListener("click", () => {
     let taskCount = getAllTaskCount();
-    currentProjectTitle.textContent = "All" 
-    currentTaskCountPara.textContent = `${taskCount} Tasks`
+    currentProjectTitle.textContent = "All";
+    currentTaskCountPara.textContent = `${taskCount} Tasks`;
     DOMController.clearTasks();
     DOMController.displayAllTasks(todoManager.projectArr);
     currentView = "all";
@@ -111,23 +114,34 @@ weekBtn.addEventListener("click", () => {
     
 })
 
-//change current project in view
+//handle project nav events (change view, delete, edit)
 navDiv.addEventListener("click", (e) => {
     let projectDiv = e.target.closest(".project-div");
-    if (projectDiv) {
-        let projectId = parseInt(projectDiv.dataset.projectId);
+    let projectDelete = e.target.closest(".project-delete");
+    let projectId;
+    if (projectDelete) {
+        projectId = parseInt(projectDiv.dataset.projectId);
+        todoManager.deleteProject(projectId);
+        DOMController.clearProjects();
+        DOMController.clearTasks();
+        DOMController.displayProjects(todoManager.projectArr);
+        currentProject = null;
+        let taskCount = getAllTaskCount();
+        currentProjectTitle.textContent = "All";
+        currentTaskCountPara.textContent = `${taskCount} Tasks`;
+        displayCurrentView();
+        return;
+    } else if (projectDiv) {
+        projectId = parseInt(projectDiv.dataset.projectId);
         currentProject = projectId;
         let project = todoManager.projectArr.find((project) => project.id === projectId);
         DOMController.clearTasks();
         DOMController.displayTasks(project);
-
         let taskCount = getProjectTaskCount(project);
         currentProjectTitle.textContent = project.name;
-        currentTaskCountPara.textContent = `${taskCount} Tasks`
+        currentTaskCountPara.textContent = `${taskCount} Tasks`;
     }
 })
-
-
 
 //delete task
 contentDiv.addEventListener("click", (e) => {

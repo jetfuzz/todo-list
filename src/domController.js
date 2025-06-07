@@ -9,6 +9,43 @@ function clearTasks() {
     existingTasks.forEach(task => task.remove());
 }
 
+function displayTask() {
+    let taskDiv = document.createElement("div");
+        taskDiv.className = "task";
+        taskDiv.dataset.taskId = task.id;
+        taskDiv.dataset.projectId = project.id;
+
+        let taskCheckbox = document.createElement("div");
+        taskCheckbox.className = "task-checkbox";
+
+        let taskTitle = document.createElement("p");
+        taskTitle.className = "task-title";
+        taskTitle.innerHTML = task.title;
+
+        let taskInfo = document.createElement("div");
+        taskInfo.className = "task-info";
+
+        let taskDate = document.createElement("p");
+        taskDate.className = "task-date";
+        taskDate.innerHTML = task.dueDate;
+
+        let taskEdit = document.createElement("img");
+        taskEdit.className = "task-edit";
+        taskEdit.src = editSvg;
+
+        let taskDelete = document.createElement("img");
+        taskDelete.className = "task-delete";
+        taskDelete.src = deleteSvg;
+
+        taskInfo.appendChild(taskDate);
+        taskInfo.appendChild(taskEdit);
+        taskInfo.appendChild(taskDelete);
+        taskDiv.appendChild(taskCheckbox);
+        taskDiv.appendChild(taskTitle);
+        taskDiv.appendChild(taskInfo);
+        contentDiv.appendChild(taskDiv);
+}
+
 function displayTasks(project) {
     let contentDiv = document.getElementById("content");
 
@@ -130,7 +167,7 @@ function displayTaskModal(action, projects) {
         </div>
 
         <label for="form-project">Project</label>
-        <select name="form-project" id="form-project">
+        <select name="form-project" id="form-project" required>
         ${projectsHTML}
         </select>
         <hr>
