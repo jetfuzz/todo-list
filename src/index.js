@@ -71,7 +71,7 @@ function getTaskFromEvent(e) {
     let project = todoManager.projectArr.find((project) => project.id === projectId);
     let task = project.tasks.find((task) => task.id === taskId);
 
-    return { task, project, taskId, projectId }
+    return { task, project, taskId, projectId, taskDiv }
 }
 
 function getAllTaskCount() {
@@ -179,6 +179,16 @@ contentDiv.addEventListener("click", (e) => {
             document.getElementById("form-desc").value = "";
         }
         modal.showModal();
+    }
+})
+
+//task completion
+contentDiv.addEventListener("click", (e) => {
+    if (e.target.className === "task-checkbox") {
+        let { project, taskId, taskDiv, task } = getTaskFromEvent(e);
+        let isCompleted = task.completed
+        todoManager.toggleTaskCompletion(project, taskId);
+        DOMController.updateTaskCompleteStyle(taskDiv, isCompleted)
     }
 })
 

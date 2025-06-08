@@ -1,6 +1,7 @@
 export { 
-    clearTasks, displayTasks, displayAllTasks, clearProjects, displayProjects, displayTaskModal, displayProjectModal 
+    clearTasks, displayTasks, displayAllTasks, updateTaskCompleteStyle, clearProjects, displayProjects, displayTaskModal, displayProjectModal 
 };
+
 import editSvg from "./images/edit-2-svgrepo-com.svg";
 import deleteSvg from "./images/delete-svgrepo-com.svg";
 import projectSvg from "./images/task-list-svgrepo-com.svg";
@@ -19,10 +20,12 @@ function displayTasks(project) {
         taskDiv.className = "task";
         taskDiv.dataset.taskId = task.id;
         taskDiv.dataset.projectId = project.id;
+        setTaskPriorityColor(task.priority, taskDiv, "borderLeftColor")
 
-        let taskCheckbox = document.createElement("div");
+        let taskCheckbox = document.createElement("input");
         taskCheckbox.className = "task-checkbox";
-        getTaskPriority(task.priority, taskCheckbox);
+        taskCheckbox.type = "checkbox";
+        setTaskPriorityColor(task.priority, taskCheckbox, "accentColor")
 
         let taskTitle = document.createElement("p");
         taskTitle.className = "task-title";
@@ -59,15 +62,26 @@ function displayAllTasks(projects) {
     });
 }
 
-function getTaskPriority(priority, element) {
+function setTaskPriorityColor(priority, element, property) {
     if (priority === "high") {
-        element.style.border="1px solid #f5b5b5";
+        element.style[property]="#dc2626";
     } else if (priority === "medium") {
-        element.style.border="1px solid #ffe08a";
+        element.style[property]="#d97706";
     } else if (priority === "low") {
-        element.style.border="1px solid #a7e9af";
+        element.style[property]="#10b981";
     } else {
-        element.style.border="1px solid #ddd";
+        element.style[property]="#ddd";
+    }
+}
+
+function updateTaskCompleteStyle(taskDiv, isCompleted) {
+    let title = taskDiv.querySelector(".task-title")
+    if (isCompleted) {
+        title.style.textDecoration = "none";
+        title.style.color = "black"
+    } else {
+        title.style.textDecoration = "line-through";
+        title.style.color = "#9ca3af"
     }
 }
 

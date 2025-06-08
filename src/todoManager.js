@@ -1,4 +1,4 @@
-export { projectArr, Task, Project, addTask, editTask, deleteTask, moveTask, addProject, editProject, deleteProject };
+export { projectArr, Task, Project, addTask, editTask, deleteTask, moveTask, toggleTaskCompletion, addProject, editProject, deleteProject };
 
 let TaskCounter = 1;
 let ProjectCounter = 1;
@@ -50,6 +50,15 @@ function moveTask(oldProject, newProject, id) {
         oldProject.tasks.splice(index, 1);
     }
     newProject.tasks.push(task);
+}
+
+function toggleTaskCompletion(project, id) {
+    let task = project.tasks.find((task) => task.id === id);
+    if (!task.completed) {
+        task.completed = true;
+    } else {
+        task.completed = false;
+    }
 }
 
 function addProject(projectName) {

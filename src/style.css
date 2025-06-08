@@ -55,7 +55,7 @@ body {
 
 header {
     padding: 10px 40px;
-    background-color: rgba(175, 31, 31, 0.685);
+    background-color: #b04545;
 }
 
 h1 {
@@ -76,7 +76,7 @@ nav {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    width: 260px;
+    width: 270px;
     padding: 0 4px;
 }
 
@@ -190,6 +190,9 @@ nav > button:hover {
     display: flex;
     padding: 4px;
     align-items: center;
+    border-left: 3px solid #8b8b8b;
+    border-radius: 7px;
+    margin-bottom: 12px;
 }
 
 .task:hover {
@@ -200,12 +203,16 @@ nav > button:hover {
 
 .task > * {
     margin: 4px;
+    transition: all 0.2s;
 }
 
 .task-checkbox {
-    border: 2px solid #ddd; 
-    border-radius: 50%;
     transition: all 0.2s;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin: 3px 5px;
+    accent-color: #16a34a;
 }
 
 .task-options {
@@ -213,7 +220,7 @@ nav > button:hover {
     margin-left: auto;
 }
 
-.task-edit, .task-delete, .task-info, .task-checkbox {
+.task-edit, .task-delete, .task-info {
     width: 20px;
     height: 20px;
     cursor: pointer;
