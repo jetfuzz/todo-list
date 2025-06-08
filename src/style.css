@@ -190,7 +190,7 @@ nav > button:hover {
     display: flex;
     padding: 4px;
     align-items: center;
-    border-left: 3px solid #8b8b8b;
+    border-left: 2px solid;
     border-radius: 7px;
     margin-bottom: 12px;
 }

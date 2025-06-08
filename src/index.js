@@ -1,7 +1,7 @@
 import "./style.css";
 import * as todoManager from "./todoManager.js";
 import * as DOMController from "./domController.js"
-import { format, addDays } from "date-fns";
+import { format, addDays, eachDayOfInterval } from "date-fns";
 
 //create default project
 let defaultProject = todoManager.addProject("Test Project");
@@ -53,9 +53,9 @@ function displayCurrentView() {
         if (currentView === "all") {
             DOMController.displayAllTasks(todoManager.projectArr);
         } else if (currentView === "today") {
-            //display tasks due today
+            DOMController.displayTodayTasks(todoManager.projectArr);
         } else if (currentView === "week") {
-            //display tasks due this week
+            DOMController.displayWeekTasks(todoManager.projectArr);
         }
     } 
     else if (currentProject != null) {
@@ -92,8 +92,39 @@ function getProjectTaskCount(project) {
     return taskCount;
 }
 
+function getTodayTaskCount(projects) {
+    let taskCount = 0;
+    let today = format(new Date(), "yyyy-MM-dd");
+    projects.forEach(project => {
+        project.tasks.forEach(task => {
+            if (task.dueDate === today) {
+                taskCount++
+            }
+        })
+    });
+    return taskCount;
+}
+
+function getWeekTaskCount(projects) {
+    let taskCount = 0;
+    const thisWeek = eachDayOfInterval({
+        start: new Date(),
+        end: addDays(new Date(), 7)
+    })
+
+    projects.forEach(project => {
+        project.tasks.forEach(task => {
+            thisWeek.forEach(day => {
+                if (task.dueDate === format(day, "yyyy-MM-dd")) {
+                    taskCount++
+                }
+            })
+        })
+    });
+    return taskCount;
+}
+
 //nav tabs
-//all tasks
 allBtn.addEventListener("click", () => {
     let taskCount = getAllTaskCount();
     currentProjectTitle.textContent = "All";
@@ -104,14 +135,24 @@ allBtn.addEventListener("click", () => {
     currentProject = null;
 })
 
-//today tasks
 todayBtn.addEventListener("click", () => {
-    
+    currentProjectTitle.textContent = "Today";
+    currentView = "today";
+    currentProject = null;
+    let taskCount = getTodayTaskCount(todoManager.projectArr);
+    currentTaskCountPara.textContent = `${taskCount} Tasks`;
+    DOMController.clearTasks();
+    DOMController.displayTodayTasks(todoManager.projectArr);
 })
 
-//week tasks
 weekBtn.addEventListener("click", () => {
-    
+    currentProjectTitle.textContent = "Week";
+    currentView = "week";
+    currentProject = null;
+    let taskCount = getWeekTaskCount(todoManager.projectArr);
+    currentTaskCountPara.textContent = `${taskCount} Tasks`;
+    DOMController.clearTasks();
+    DOMController.displayWeekTasks(todoManager.projectArr);
 })
 
 //handle project nav events (change view, delete, edit)

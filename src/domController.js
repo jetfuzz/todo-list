@@ -1,10 +1,11 @@
 export { 
-    clearTasks, displayTasks, displayAllTasks, updateTaskCompleteStyle, clearProjects, displayProjects, displayTaskModal, displayProjectModal 
+    clearTasks, displayTasks, displayTodayTasks, displayWeekTasks, displayAllTasks, updateTaskCompleteStyle, clearProjects, displayProjects, displayTaskModal, displayProjectModal 
 };
 
 import editSvg from "./images/edit-2-svgrepo-com.svg";
 import deleteSvg from "./images/delete-svgrepo-com.svg";
 import projectSvg from "./images/task-list-svgrepo-com.svg";
+import { format, addDays, eachDayOfInterval } from "date-fns"
 
 function clearTasks() {
     let contentDiv = document.getElementById("content");
@@ -12,47 +13,84 @@ function clearTasks() {
     existingTasks.forEach(task => task.remove());
 }
 
+function createTaskElement(task, project) {
+    let taskDiv = document.createElement("div");
+    taskDiv.className = "task";
+    taskDiv.dataset.taskId = task.id;
+    taskDiv.dataset.projectId = project.id;
+    setTaskPriorityColor(task.priority, taskDiv, "borderLeftColor")
+
+    let taskCheckbox = document.createElement("input");
+    taskCheckbox.className = "task-checkbox";
+    taskCheckbox.type = "checkbox";
+    setTaskPriorityColor(task.priority, taskCheckbox, "accentColor")
+
+    let taskTitle = document.createElement("p");
+    taskTitle.className = "task-title";
+    taskTitle.innerHTML = task.title;
+
+    let taskOptions = document.createElement("div");
+    taskOptions.className = "task-options";
+
+    let taskDate = document.createElement("p");
+    taskDate.className = "task-date";
+    taskDate.innerHTML = task.dueDate;
+
+    let taskEdit = document.createElement("img");
+    taskEdit.className = "task-edit";
+    taskEdit.src = editSvg;
+
+    let taskDelete = document.createElement("img");
+    taskDelete.className = "task-delete";
+    taskDelete.src = deleteSvg;
+
+    taskOptions.appendChild(taskDate);
+    taskOptions.appendChild(taskEdit);
+    taskOptions.appendChild(taskDelete);
+    taskDiv.appendChild(taskCheckbox);
+    taskDiv.appendChild(taskTitle);
+    taskDiv.appendChild(taskOptions);
+    return taskDiv;
+}
+
 function displayTasks(project) {
     let contentDiv = document.getElementById("content");
-
     project.tasks.forEach(task => {
-        let taskDiv = document.createElement("div");
-        taskDiv.className = "task";
-        taskDiv.dataset.taskId = task.id;
-        taskDiv.dataset.projectId = project.id;
-        setTaskPriorityColor(task.priority, taskDiv, "borderLeftColor")
-
-        let taskCheckbox = document.createElement("input");
-        taskCheckbox.className = "task-checkbox";
-        taskCheckbox.type = "checkbox";
-        setTaskPriorityColor(task.priority, taskCheckbox, "accentColor")
-
-        let taskTitle = document.createElement("p");
-        taskTitle.className = "task-title";
-        taskTitle.innerHTML = task.title;
-
-        let taskOptions = document.createElement("div");
-        taskOptions.className = "task-options";
-
-        let taskDate = document.createElement("p");
-        taskDate.className = "task-date";
-        taskDate.innerHTML = task.dueDate;
-
-        let taskEdit = document.createElement("img");
-        taskEdit.className = "task-edit";
-        taskEdit.src = editSvg;
-
-        let taskDelete = document.createElement("img");
-        taskDelete.className = "task-delete";
-        taskDelete.src = deleteSvg;
-
-        taskOptions.appendChild(taskDate);
-        taskOptions.appendChild(taskEdit);
-        taskOptions.appendChild(taskDelete);
-        taskDiv.appendChild(taskCheckbox);
-        taskDiv.appendChild(taskTitle);
-        taskDiv.appendChild(taskOptions);
+        
+        let taskDiv = createTaskElement(task, project);;
         contentDiv.appendChild(taskDiv);
+    });
+}
+
+function displayTodayTasks(projects) {
+    let contentDiv = document.getElementById("content");
+    let today = format(new Date(), "yyyy-MM-dd");
+    projects.forEach(project => {
+        project.tasks.forEach(task => {
+            if (task.dueDate === today) {
+                let taskDiv = createTaskElement(task, project);
+                contentDiv.appendChild(taskDiv);
+            }
+        })
+    });
+}
+
+function displayWeekTasks(projects) {
+    let contentDiv = document.getElementById("content");
+    const thisWeek = eachDayOfInterval({
+        start: new Date(),
+        end: addDays(new Date(), 7)
+    })
+
+    projects.forEach(project => {
+        project.tasks.forEach(task => {
+            thisWeek.forEach(day => {
+                if (task.dueDate === format(day, "yyyy-MM-dd")) {
+                    let taskDiv = createTaskElement(task, project);
+                    contentDiv.appendChild(taskDiv);
+                }
+            })
+        })
     });
 }
 
