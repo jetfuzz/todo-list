@@ -1,26 +1,31 @@
-export { projectArr, Task, Project, addTask, editTask, deleteTask, moveTask, toggleTaskCompletion, addProject, editProject, deleteProject };
+export { projectArr, Task, Project, storeProjectsToArray, addTask, editTask, deleteTask, moveTask, toggleTaskCompletion, addProject, editProject, deleteProject };
 
-let TaskCounter = 1;
-let ProjectCounter = 1;
 let projectArr = [];
 
 class Task {
+    static counter = 1
     constructor(title, description, dueDate, priority) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
         this.completed = false;
-        this.id = TaskCounter++;
+        this.id = Task.counter++;
     }
 }
 
 class Project {
+    static counter = 1;
     constructor(name) {
         this.name = name;
         this.tasks = [];
-        this.id = ProjectCounter++;
+        this.id = Project.counter++;
     }
+}
+
+function storeProjectsToArray(array) {
+    projectArr.length = 0
+    projectArr.push(...array)
 }
 
 function addTask(project, title, description, dueDate, priority) {

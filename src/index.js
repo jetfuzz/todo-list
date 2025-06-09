@@ -1,6 +1,7 @@
 import "./style.css";
 import * as todoManager from "./todoManager.js";
-import * as DOMController from "./domController.js"
+import * as DOMController from "./domController.js";
+import * as storage from "./storage.js";
 import { format, addDays, eachDayOfInterval } from "date-fns";
 
 //create default project
@@ -8,11 +9,15 @@ let defaultProject = todoManager.addProject("Test Project");
 
 //placeholder projects + tasks 
 let secondProject = todoManager.addProject("Second Project");
-let thirdProject = todoManager.addProject("Third Project")
+let thirdProject = todoManager.addProject("Third Project");
 todoManager.addTask(defaultProject, "Test Task", "Description", format(new Date(), "yyyy-MM-dd"), "high");
 todoManager.addTask(defaultProject, "Another Task", "Yes", format(new Date(), "yyyy-MM-dd"), "medium");
 todoManager.addTask(secondProject, "This Task", "Okay", format(addDays(new Date(), 2), "yyyy-MM-dd"), "low");
 todoManager.addTask(thirdProject, "Yet Another Task", "", format(addDays(new Date(), 8), "yyyy-MM-dd"), "medium");
+
+// storage.saveProjectsToStorage(todoManager.projectArr);
+let storedProjectsArr = storage.getProjectsFromStorage();
+todoManager.storeProjectsToArray(storedProjectsArr);
 
 let contentDiv = document.getElementById("content");
 let navDiv = document.getElementById("nav");
@@ -52,15 +57,19 @@ function displayCurrentView() {
     if (currentProject === null) {
         if (currentView === "all") {
             DOMController.displayAllTasks(todoManager.projectArr);
+            updateTaskCompleteStyling();
         } else if (currentView === "today") {
             DOMController.displayTodayTasks(todoManager.projectArr);
+            updateTaskCompleteStyling();
         } else if (currentView === "week") {
             DOMController.displayWeekTasks(todoManager.projectArr);
+            updateTaskCompleteStyling();
         }
     } 
     else if (currentProject != null) {
         let project = todoManager.projectArr.find((project) => project.id === currentProject);
         DOMController.displayTasks(project)
+        updateTaskCompleteStyling();
     } 
 }
 
@@ -124,15 +133,45 @@ function getWeekTaskCount(projects) {
     return taskCount;
 }
 
+function updateTaskCompleteStyling() {
+    document.querySelectorAll(".task").forEach(taskDiv => {
+        let taskId = parseInt(taskDiv.dataset.taskId);
+        let projectId = parseInt(taskDiv.dataset.projectId);
+        let project = todoManager.projectArr.find((project) => project.id === projectId);
+        let task = project.tasks.find((task) => task.id === taskId);
+        if (!task.completed) {
+            DOMController.setTaskCompleteStyle(taskDiv, task.completed);
+        } else {
+            DOMController.setTaskCompleteStyle(taskDiv, task.completed);
+        }
+    });
+}
+
+function getFormValues() {
+    let title = document.getElementById("form-title").value;
+    let desc = document.getElementById("form-desc").value;
+    let dueDate = document.getElementById("form-date").value;
+    let priority = document.getElementById("form-prio").value;
+    let projectId = parseInt(document.getElementById("form-project").value);
+    let project = todoManager.projectArr.find((project) => project.id === projectId);
+
+    return { title, desc, dueDate, priority, projectId, project }
+}
+
+window.addEventListener("load", () => {
+    updateTaskCompleteStyling()
+});
+
 //nav tabs
 allBtn.addEventListener("click", () => {
     let taskCount = getAllTaskCount();
     currentProjectTitle.textContent = "All";
+    currentView = "all";
+    currentProject = null;
     currentTaskCountPara.textContent = `${taskCount} Tasks`;
     DOMController.clearTasks();
     DOMController.displayAllTasks(todoManager.projectArr);
-    currentView = "all";
-    currentProject = null;
+    updateTaskCompleteStyling();
 })
 
 todayBtn.addEventListener("click", () => {
@@ -143,6 +182,7 @@ todayBtn.addEventListener("click", () => {
     currentTaskCountPara.textContent = `${taskCount} Tasks`;
     DOMController.clearTasks();
     DOMController.displayTodayTasks(todoManager.projectArr);
+    updateTaskCompleteStyling();
 })
 
 weekBtn.addEventListener("click", () => {
@@ -153,6 +193,7 @@ weekBtn.addEventListener("click", () => {
     currentTaskCountPara.textContent = `${taskCount} Tasks`;
     DOMController.clearTasks();
     DOMController.displayWeekTasks(todoManager.projectArr);
+    updateTaskCompleteStyling();
 })
 
 //handle project nav events (change view, delete, edit)
@@ -171,6 +212,7 @@ navDiv.addEventListener("click", (e) => {
         currentProjectTitle.textContent = "All";
         currentTaskCountPara.textContent = `${taskCount} Tasks`;
         displayCurrentView();
+        storage.saveProjectsToStorage(todoManager.projectArr);
         return;
     } else if (projectDiv) {
         projectId = parseInt(projectDiv.dataset.projectId);
@@ -181,6 +223,7 @@ navDiv.addEventListener("click", (e) => {
         let taskCount = getProjectTaskCount(project);
         currentProjectTitle.textContent = project.name;
         currentTaskCountPara.textContent = `${taskCount} Tasks`;
+        updateTaskCompleteStyling();
     }
 })
 
@@ -191,6 +234,7 @@ contentDiv.addEventListener("click", (e) => {
         todoManager.deleteTask(project, taskId);
         DOMController.clearTasks();
         displayCurrentView();
+        storage.saveProjectsToStorage(todoManager.projectArr);
     }
 })
 
@@ -227,9 +271,14 @@ contentDiv.addEventListener("click", (e) => {
 contentDiv.addEventListener("click", (e) => {
     if (e.target.className === "task-checkbox") {
         let { project, taskId, taskDiv, task } = getTaskFromEvent(e);
-        let isCompleted = task.completed
-        todoManager.toggleTaskCompletion(project, taskId);
-        DOMController.updateTaskCompleteStyle(taskDiv, isCompleted)
+        if (!task.completed) {
+            todoManager.toggleTaskCompletion(project, taskId);
+            DOMController.setTaskCompleteStyle(taskDiv, task.completed);
+        } else {
+            todoManager.toggleTaskCompletion(project, taskId);
+            DOMController.setTaskCompleteStyle(taskDiv, task.completed);
+        }
+        storage.saveProjectsToStorage(todoManager.projectArr);
     }
 })
 
@@ -239,17 +288,6 @@ addProjectBtn.addEventListener("click", () => {
     DOMController.displayProjectModal("Add")
     modal.showModal();
 })
-
-function getFormValues() {
-    let title = document.getElementById("form-title").value;
-    let desc = document.getElementById("form-desc").value;
-    let dueDate = document.getElementById("form-date").value;
-    let priority = document.getElementById("form-prio").value;
-    let projectId = parseInt(document.getElementById("form-project").value);
-    let project = todoManager.projectArr.find((project) => project.id === projectId);
-
-    return { title, desc, dueDate, priority, projectId, project }
-}
 
 //handle form submit based on current modalMode
 form.addEventListener("submit", (e) => {
@@ -279,6 +317,7 @@ form.addEventListener("submit", (e) => {
     modal.close();
     DOMController.clearTasks();
     displayCurrentView();
+    storage.saveProjectsToStorage(todoManager.projectArr);
 })
 
 //close modal events

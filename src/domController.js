@@ -1,5 +1,5 @@
 export { 
-    clearTasks, displayTasks, displayTodayTasks, displayWeekTasks, displayAllTasks, updateTaskCompleteStyle, clearProjects, displayProjects, displayTaskModal, displayProjectModal 
+    clearTasks, displayTasks, displayTodayTasks, displayWeekTasks, displayAllTasks, setTaskCompleteStyle, clearProjects, displayProjects, displayTaskModal, displayProjectModal 
 };
 
 import editSvg from "./images/edit-2-svgrepo-com.svg";
@@ -112,14 +112,18 @@ function setTaskPriorityColor(priority, element, property) {
     }
 }
 
-function updateTaskCompleteStyle(taskDiv, isCompleted) {
+function setTaskCompleteStyle(taskDiv, isCompleted) {
     let title = taskDiv.querySelector(".task-title")
-    if (isCompleted) {
+    let checkbox = taskDiv.querySelector(".task-checkbox");
+
+    if (!isCompleted) {
         title.style.textDecoration = "none";
-        title.style.color = "black"
+        title.style.color = "black";
+        checkbox.checsked = false;
     } else {
         title.style.textDecoration = "line-through";
-        title.style.color = "#9ca3af"
+        title.style.color = "#9ca3af";
+        checkbox.checked = true;
     }
 }
 
