@@ -58,18 +58,26 @@ function displayCurrentView() {
         if (currentView === "all") {
             DOMController.displayAllTasks(todoManager.projectArr);
             updateTaskCompleteStyling();
+            taskCount = getAllTaskCount();
+            currentTaskCountPara.textContent = `${taskCount} Tasks`;
         } else if (currentView === "today") {
             DOMController.displayTodayTasks(todoManager.projectArr);
             updateTaskCompleteStyling();
+            taskCount = getTodayTaskCount(todoManager.projectArr);
+            currentTaskCountPara.textContent = `${taskCount} Tasks`;
         } else if (currentView === "week") {
             DOMController.displayWeekTasks(todoManager.projectArr);
             updateTaskCompleteStyling();
+            taskCount = getWeekTaskCount(todoManager.projectArr);
+            currentTaskCountPara.textContent = `${taskCount} Tasks`;
         }
     } 
     else if (currentProject != null) {
         let project = todoManager.projectArr.find((project) => project.id === currentProject);
         DOMController.displayTasks(project)
         updateTaskCompleteStyling();
+        taskCount = getProjectTaskCount(project);
+        currentTaskCountPara.textContent = `${taskCount} Tasks`;
     } 
 }
 
@@ -162,7 +170,7 @@ window.addEventListener("load", () => {
     updateTaskCompleteStyling()
 });
 
-//nav tabs
+//navigation tabs
 allBtn.addEventListener("click", () => {
     let taskCount = getAllTaskCount();
     currentProjectTitle.textContent = "All";
@@ -196,10 +204,11 @@ weekBtn.addEventListener("click", () => {
     updateTaskCompleteStyling();
 })
 
-//handle project nav events (change view, delete, edit)
+//handle project nav click events (change view, delete, edit)
 navDiv.addEventListener("click", (e) => {
     let projectDiv = e.target.closest(".project-div");
     let projectDelete = e.target.closest(".project-delete");
+    let projectEdit = e.target.closest(".project-edit");
     let projectId;
     if (projectDelete) {
         projectId = projectDiv.dataset.projectId;
@@ -214,7 +223,17 @@ navDiv.addEventListener("click", (e) => {
         displayCurrentView();
         storage.saveProjectsToStorage(todoManager.projectArr);
         return;
-    } else if (projectDiv) {
+    } 
+    else if (projectEdit) {
+        modalMode = "editProject";
+        DOMController.displayProjectModal("Edit")
+        projectId = projectDiv.dataset.projectId;
+        currentProject = projectId;
+        let project = todoManager.projectArr.find((project) => project.id === projectId);
+        document.getElementById("form-title").value = project.name;
+        modal.showModal();
+    } 
+    else if (projectDiv) {
         projectId = projectDiv.dataset.projectId;
         currentProject = projectId;
         let project = todoManager.projectArr.find((project) => project.id === projectId);
@@ -312,7 +331,10 @@ form.addEventListener("submit", (e) => {
         DOMController.clearProjects();
         DOMController.displayProjects(todoManager.projectArr);
     } else if (modalMode === "editProject") {
-
+        let title = document.getElementById("form-title").value;
+        todoManager.editProject(currentProject, title);
+        DOMController.clearProjects();
+        DOMController.displayProjects(todoManager.projectArr);
     }
     modal.close();
     DOMController.clearTasks();
