@@ -15,7 +15,7 @@ todoManager.addTask(defaultProject, "Another Task", "Yes", format(new Date(), "y
 todoManager.addTask(secondProject, "This Task", "Okay", format(addDays(new Date(), 2), "yyyy-MM-dd"), "low");
 todoManager.addTask(thirdProject, "Yet Another Task", "", format(addDays(new Date(), 8), "yyyy-MM-dd"), "medium");
 
-// storage.saveProjectsToStorage(todoManager.projectArr);
+//storage.saveProjectsToStorage(todoManager.projectArr);
 let storedProjectsArr = storage.getProjectsFromStorage();
 todoManager.storeProjectsToArray(storedProjectsArr);
 
@@ -75,8 +75,8 @@ function displayCurrentView() {
 
 function getTaskFromEvent(e) {
     let taskDiv = e.target.closest('.task');
-    let taskId = parseInt(taskDiv.dataset.taskId);
-    let projectId = parseInt(taskDiv.dataset.projectId);
+    let taskId = taskDiv.dataset.taskId;
+    let projectId = taskDiv.dataset.projectId;
     let project = todoManager.projectArr.find((project) => project.id === projectId);
     let task = project.tasks.find((task) => task.id === taskId);
 
@@ -135,8 +135,8 @@ function getWeekTaskCount(projects) {
 
 function updateTaskCompleteStyling() {
     document.querySelectorAll(".task").forEach(taskDiv => {
-        let taskId = parseInt(taskDiv.dataset.taskId);
-        let projectId = parseInt(taskDiv.dataset.projectId);
+        let taskId = taskDiv.dataset.taskId;
+        let projectId = taskDiv.dataset.projectId;
         let project = todoManager.projectArr.find((project) => project.id === projectId);
         let task = project.tasks.find((task) => task.id === taskId);
         if (!task.completed) {
@@ -152,7 +152,7 @@ function getFormValues() {
     let desc = document.getElementById("form-desc").value;
     let dueDate = document.getElementById("form-date").value;
     let priority = document.getElementById("form-prio").value;
-    let projectId = parseInt(document.getElementById("form-project").value);
+    let projectId = document.getElementById("form-project").value;
     let project = todoManager.projectArr.find((project) => project.id === projectId);
 
     return { title, desc, dueDate, priority, projectId, project }
@@ -202,7 +202,7 @@ navDiv.addEventListener("click", (e) => {
     let projectDelete = e.target.closest(".project-delete");
     let projectId;
     if (projectDelete) {
-        projectId = parseInt(projectDiv.dataset.projectId);
+        projectId = projectDiv.dataset.projectId;
         todoManager.deleteProject(projectId);
         DOMController.clearProjects();
         DOMController.clearTasks();
@@ -215,7 +215,7 @@ navDiv.addEventListener("click", (e) => {
         storage.saveProjectsToStorage(todoManager.projectArr);
         return;
     } else if (projectDiv) {
-        projectId = parseInt(projectDiv.dataset.projectId);
+        projectId = projectDiv.dataset.projectId;
         currentProject = projectId;
         let project = todoManager.projectArr.find((project) => project.id === projectId);
         DOMController.clearTasks();

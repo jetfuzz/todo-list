@@ -10,7 +10,7 @@ class Task {
         this.dueDate = dueDate;
         this.priority = priority;
         this.completed = false;
-        this.id = Task.counter++;
+        this.id = guidGenerator();
     }
 }
 
@@ -19,9 +19,17 @@ class Project {
     constructor(name) {
         this.name = name;
         this.tasks = [];
-        this.id = Project.counter++;
+        this.id = guidGenerator();
     }
 }
+
+function guidGenerator() {
+    let S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4());
+ }
+ 
 
 function storeProjectsToArray(array) {
     projectArr.length = 0
