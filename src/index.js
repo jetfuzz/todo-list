@@ -6,8 +6,8 @@ import { format, addDays, eachDayOfInterval } from "date-fns";
 
 //create default project & tasks
 let defaultProject = todoManager.addProject("My First Project");
-todoManager.addTask(defaultProject, "drink more water", "", format(new Date(), "yyyy-MM-dd"), "medium");
-todoManager.addTask(defaultProject, "finish todo app", "", format(new Date(), "yyyy-MM-dd"), "low");
+todoManager.addTask(defaultProject, "Drink more water", "", format(new Date(), "yyyy-MM-dd"), "medium");
+todoManager.addTask(defaultProject, "Touch grass", "", format(new Date(), "yyyy-MM-dd"), "low");
 
 //get projects from localStorage
 let storedProjectsArr = storage.getProjectsFromStorage();
