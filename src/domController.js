@@ -102,13 +102,13 @@ function displayAllTasks(projects) {
 
 function setTaskPriorityColor(priority, element, property) {
     if (priority === "high") {
-        element.style[property]="#dc2626";
+        element.style[property]="#FF6B6B";
     } else if (priority === "medium") {
-        element.style[property]="#d97706";
+        element.style[property]="#f47d2f";
     } else if (priority === "low") {
         element.style[property]="#10b981";
     } else {
-        element.style[property]="#ddd";
+        element.style[property]="#E0E0E0";
     }
 }
 

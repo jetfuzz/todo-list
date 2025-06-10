@@ -30,6 +30,8 @@ let addProjectBtn = document.getElementById("add-project-btn");
 let currentProjectTitle = document.querySelector(".current-project");
 let currentTaskCountPara = document.querySelector(".task-count");
 
+let viewNavBtn = document.querySelector(".open-nav-svg");
+
 //display all tasks and projects on page load
 DOMController.displayAllTasks(todoManager.projectArr);
 DOMController.displayProjects(todoManager.projectArr);
@@ -349,3 +351,8 @@ document.addEventListener('click', (e) => {
         modal.close();
     }
 });
+
+//display nav on mobile
+viewNavBtn.addEventListener("click", () => {
+    navDiv.classList.toggle("open");
+})
