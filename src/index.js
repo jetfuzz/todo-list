@@ -4,21 +4,16 @@ import * as DOMController from "./domController.js";
 import * as storage from "./storage.js";
 import { format, addDays, eachDayOfInterval } from "date-fns";
 
-//create default project
-let defaultProject = todoManager.addProject("Test Project");
+//create default project & tasks
+let defaultProject = todoManager.addProject("My First Project");
+todoManager.addTask(defaultProject, "drink more water", "", format(new Date(), "yyyy-MM-dd"), "medium");
+todoManager.addTask(defaultProject, "finish todo app", "", format(new Date(), "yyyy-MM-dd"), "low");
 
-//placeholder projects + tasks 
-let secondProject = todoManager.addProject("Second Project");
-let thirdProject = todoManager.addProject("Third Project");
-todoManager.addTask(defaultProject, "Test Task", "Description", format(new Date(), "yyyy-MM-dd"), "high");
-todoManager.addTask(defaultProject, "Another Task", "Yes", format(new Date(), "yyyy-MM-dd"), "medium");
-todoManager.addTask(secondProject, "This Task", "Okay", format(addDays(new Date(), 2), "yyyy-MM-dd"), "low");
-todoManager.addTask(thirdProject, "Yet Another Task", "", format(addDays(new Date(), 8), "yyyy-MM-dd"), "medium");
-
-//storage.saveProjectsToStorage(todoManager.projectArr);
+//get projects from localStorage
 let storedProjectsArr = storage.getProjectsFromStorage();
 todoManager.storeProjectsToArray(storedProjectsArr);
 
+//dom elements
 let contentDiv = document.getElementById("content");
 let navDiv = document.getElementById("nav");
 
@@ -204,7 +199,7 @@ weekBtn.addEventListener("click", () => {
     updateTaskCompleteStyling();
 })
 
-//handle project nav click events (change view, delete, edit)
+//handle project nav events (change view, delete, edit)
 navDiv.addEventListener("click", (e) => {
     let projectDiv = e.target.closest(".project-div");
     let projectDelete = e.target.closest(".project-delete");

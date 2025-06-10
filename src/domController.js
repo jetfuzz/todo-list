@@ -4,7 +4,7 @@ export {
 
 import editSvg from "./images/edit-2-svgrepo-com.svg";
 import deleteSvg from "./images/delete-svgrepo-com.svg";
-import projectSvg from "./images/task-list-svgrepo-com.svg";
+import projectSvg from "./images/folder-svgrepo-com.svg";
 import { format, addDays, eachDayOfInterval } from "date-fns"
 
 function clearTasks() {
@@ -201,7 +201,7 @@ function displayTaskModal(action, projects) {
         </div>
 
         <label for="form-project">Project</label>
-        <select name="form-project" id="form-project" required>
+        <select name="form-project" id="form-project" required oninvalid="this.setCustomValidity('Create a project to store your tasks!')" oninput="this.setCustomValidity('')">
         ${projectsHTML}
         </select>
         <hr>

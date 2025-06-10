@@ -96,9 +96,25 @@ nav > button:hover {
     background-color: rgb(233, 233, 233);
 }
 
+.nav-btn {
+    display: flex;
+}
+
 #add-task-btn {
     font-weight: 600;
     margin: 8px 0;
+}
+
+.add-task-img {
+    height: 18px;
+    margin-right: 4px;
+    margin-top: 1px;
+}
+
+.nav-img {
+    height: 18px;
+    margin-right: 4px;
+    margin-top: 3px;
 }
 
 .projects-header {
@@ -250,12 +266,10 @@ nav > button:hover {
     overflow-y: auto;
     width: 500px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    /* max-width: 600px; */
 }
 
 #modal::backdrop {
     background: rgba(255, 255, 255, 0.4);
-    /* backdrop-filter: blur(1px); */
 }
 
 
@@ -358,8 +372,6 @@ hr {
 .modal-submit:hover {
     background-color: rgba(175, 31, 31, 0.829)
 }
-
-
 
 /* breakpoints */
 
