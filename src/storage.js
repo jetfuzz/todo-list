@@ -7,6 +7,10 @@ function saveProjectsToStorage(projects) {
 
 function getProjectsFromStorage() {
     let projectsString = localStorage.getItem("projects");
-    let projectsArr = JSON.parse(projectsString);
-    return projectsArr;
+    if (localStorage.getItem("projects") === null) {
+        return []
+    } else {
+        let projectsArr = JSON.parse(projectsString);
+        return projectsArr;
+    }
 }
