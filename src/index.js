@@ -4,14 +4,18 @@ import * as DOMController from "./domController.js";
 import * as storage from "./storage.js";
 import { format, addDays, eachDayOfInterval } from "date-fns";
 
-//create default project & tasks
-let defaultProject = todoManager.addProject("My First Project");
-todoManager.addTask(defaultProject, "Drink more water", "", format(new Date(), "yyyy-MM-dd"), "medium");
-todoManager.addTask(defaultProject, "Touch grass", "", format(new Date(), "yyyy-MM-dd"), "low");
-
 //get projects from localStorage
 let storedProjectsArr = storage.getProjectsFromStorage();
-todoManager.storeProjectsToArray(storedProjectsArr);
+
+//create default project & tasks if localStorage is empty
+if (storedProjectsArr.length === 0) {
+    let defaultProject = todoManager.addProject("My First Project");
+    todoManager.addTask(defaultProject, "Drink more water", "", format(new Date(), "yyyy-MM-dd"), "medium");
+    todoManager.addTask(defaultProject, "Touch grass", "", format(new Date(), "yyyy-MM-dd"), "low");
+} else {
+    todoManager.storeProjectsToArray(storedProjectsArr);
+}
+
 
 //dom elements
 let contentDiv = document.getElementById("content");
