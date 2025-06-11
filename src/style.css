@@ -3,447 +3,485 @@
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
 
-*, *::before, *::after {
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 * {
-    margin: 0;
+  margin: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    html {
-        interpolate-size: allow-keywords;
-    }
+  html {
+    interpolate-size: allow-keywords;
+  }
 }
 
 body {
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-img, picture, video, canvas, svg {
-    display: block;
-    max-width: 100%;
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-input, button, textarea, select {
-    font: inherit;
+input,
+button,
+textarea,
+select {
+  font: inherit;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
-    overflow-wrap: break-word;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
 }
 
 p {
-    text-wrap: pretty;
+  text-wrap: pretty;
 }
-h1, h2, h3, h4, h5, h6 {
-    text-wrap: balance;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
 }
 
-#root, #__next {
-    isolation: isolate;
+#root,
+#__next {
+  isolation: isolate;
 }
 
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
 }
 
 /* header */
 
 header {
-    padding: 10px 40px;
-    background-color: #7050FF;
-    display: flex;
+  padding: 10px 40px;
+  background-color: #7050ff;
+  display: flex;
 }
 
 .header-content {
-    display: flex;
+  display: flex;
 }
 
 .open-nav-svg {
-    display: none;
+  display: none;
 }
 
 .check-svg {
-    margin-right: 3px;
+  margin-right: 3px;
 }
 
 h1 {
-    color: white;
-    font-size: 1.4rem;
-    margin-top: 4px;
+  color: white;
+  font-size: 1.4rem;
+  margin-top: 4px;
 }
 
 /* main content */
 
 .container {
-    display: flex;
+  display: flex;
 }
 
 /* nav */
 
 nav {
-    background-color: #F7F7F7;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 270px;
-    padding: 0 4px;
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 270px;
+  padding: 0 4px;
 }
 
 nav > button {
-    background: none;
-    border: none;
-    border-radius: 6px;
-    padding: 12px 10px;
-    font-size: 0.9rem;
-    text-align: left;
-    cursor: pointer;
-    margin: 0 6px;
-    transition: all 0.2s;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 10px;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  margin: 0 6px;
+  transition: all 0.2s;
 }
 
 nav > button:hover {
-    background-color: #E9E9E9;
+  background-color: #e9e9e9;
 }
 
 .nav-btn {
-    display: flex;
+  display: flex;
 }
 
 #add-task-btn {
-    font-weight: 600;
-    margin: 8px 0;
+  font-weight: 600;
+  margin: 8px 0;
 }
 
 .add-task-img {
-    height: 18px;
-    margin-right: 4px;
-    margin-top: 1px;
+  height: 18px;
+  margin-right: 4px;
+  margin-top: 1px;
 }
 
 .nav-img {
-    height: 18px;
-    margin-right: 4px;
-    margin-top: 3px;
+  height: 18px;
+  margin-right: 4px;
+  margin-top: 3px;
 }
 
 .projects-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px;
-    margin-top: 50px;
-    padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin-top: 50px;
+  padding: 12px 20px;
 }
 
 .projects-header > button {
-    border-radius: 24px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    width: 24px;
-    transition: all 0.2s;
+  border-radius: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 24px;
+  transition: all 0.2s;
 }
 
 .projects-header > button:hover {
-    background-color: #E9E9E9;
+  background-color: #e9e9e9;
 }
 
 .project-div {
-    background-color: #F7F7F7;
-    display: flex;
-    flex-direction: row;
-    border-radius: 6px;
-    padding: 12px 10px;
-    margin: 0 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s;
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: row;
+  border-radius: 6px;
+  padding: 12px 10px;
+  margin: 0 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .project-div:hover {
-    background-color: #E9E9E9;
+  background-color: #e9e9e9;
 }
 
 .project-icon {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin-top: 3px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-top: 3px;
 }
 
 .project-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .project-info {
-    display: flex;
-    margin-left: auto;
+  display: flex;
+  margin-left: auto;
 }
 
-.project-edit, .project-delete {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin: 2px;
+.project-edit,
+.project-delete {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 2px;
 }
 
-.project-edit:hover, .project-delete:hover {
-    transform: scale(1.1);
+.project-edit:hover,
+.project-delete:hover {
+  transform: scale(1.1);
 }
-
 
 /* tasks */
 
 #content {
-    padding: 5px;
-    margin: auto;
-    margin-top: 50px;
-    max-width: 800px;
-    width: 55%;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+  padding: 5px;
+  margin: auto;
+  margin-top: 50px;
+  max-width: 800px;
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .task-count {
-    color: grey;
-    font-size: 0.9rem;
-    margin: 4px 0 8px;
+  color: grey;
+  font-size: 0.9rem;
+  margin: 4px 0 8px;
 }
 
 .task {
-    display: flex;
-    padding: 8px 4px;
-    align-items: center;
-    border-left: 2px solid;
-    border-radius: 7px;
-    margin-bottom: 12px;
-    transition: all 0.2s;
+  display: flex;
+  padding: 8px 4px;
+  align-items: center;
+  border-left: 2px solid;
+  border-radius: 7px;
+  margin-bottom: 12px;
+  transition: all 0.2s;
 }
 
 .task:hover {
-    cursor: pointer;
-    background-color: rgb(245, 245, 245);
-    border-radius: 6px;
+  cursor: pointer;
+  background-color: rgb(245, 245, 245);
+  border-radius: 6px;
 }
 
 .task > * {
-    margin: 4px;
-    transition: all 0.2s;
+  margin: 4px;
+  transition: all 0.2s;
 }
 
 .task-checkbox {
-    transition: all 0.2s;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    margin: 3px 5px;
-    accent-color: #16a34a;
+  transition: all 0.2s;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin: 3px 5px;
+  accent-color: #16a34a;
 }
 
 .task-options {
-    display: flex;
-    margin-left: auto;
+  display: flex;
+  margin-left: auto;
 }
 
-.task-edit, .task-delete, .task-info {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin: 3px;
+.task-edit,
+.task-delete,
+.task-info {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 3px;
 }
 
-.task-edit:hover, .task-delete:hover, .task-info {
-    transform: scale(1.1);
+.task-edit:hover,
+.task-delete:hover,
+.task-info {
+  transform: scale(1.1);
 }
 
 /* modal */
 
 #modal {
-    border: none;
-    border-radius: 10px;
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0;
-    top: 120px;
-    right: 0;
-    bottom: 0;
-    left: 50px;
-    z-index: 10040;
-    overflow: auto;
-    overflow-y: auto;
-    width: 500px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: none;
+  border-radius: 10px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  top: 120px;
+  right: 0;
+  bottom: 0;
+  left: 50px;
+  z-index: 10040;
+  overflow: auto;
+  overflow-y: auto;
+  width: 500px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 #modal::backdrop {
-    background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.4);
 }
 
-
 .modal-header {
-    padding: 20px 18px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.92rem;
-    color: white;
-    background-color: #7050FF;
+  padding: 20px 18px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.92rem;
+  color: white;
+  background-color: #7050ff;
 }
 
 #modal-close {
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center; 
-    color: white;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: white;
 }
 
 .modal-header > button {
-    border: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 24px;
-    height: 24px;
-    border-radius: 24px;
+  border: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
 }
 
 #modal-form {
-    display: flex;
-    flex-direction: column;
-    padding: 24px 18px;
-    margin: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px;
+  margin: 0;
 }
 
 .form-row {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    width: 49%;
+  display: flex;
+  flex-direction: column;
+  width: 49%;
 }
 
 select {
-    background: none;
-    cursor: pointer;
+  background: none;
+  cursor: pointer;
 }
 
 label {
-    margin-bottom: 4px;
+  margin-bottom: 4px;
 }
 
-input, select, textarea {
-    margin-bottom: 20px;
-    padding: 6px;
-    border: 1px solid rgb(220, 220, 220);
-    border-radius: 6px;
+input,
+select,
+textarea {
+  margin-bottom: 20px;
+  padding: 6px;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 6px;
 }
 
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: #6b6b6b;
-    box-shadow: 0 0 0 2px rgba(107, 107, 107, 0.15);
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #6b6b6b;
+  box-shadow: 0 0 0 2px rgba(107, 107, 107, 0.15);
 }
 
 #form-project {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 hr {
-    border-color: rgba(240, 240, 240, 0.4);
+  border-color: rgba(240, 240, 240, 0.4);
 }
 
 .form-actions {
-    display: flex;
-    justify-content: end;
-    margin-top: 20px;
+  display: flex;
+  justify-content: end;
+  margin-top: 20px;
 }
 
-
-#modal-cancel, .modal-submit {
-    border: none;
-    border-radius: 6px;
-    padding: 6px 18px; 
-    cursor: pointer;
+#modal-cancel,
+.modal-submit {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  cursor: pointer;
 }
 
 .modal-submit {
-    margin-left: 10px;
-    background-color: #7050FF;
-    color: white;
+  margin-left: 10px;
+  background-color: #7050ff;
+  color: white;
 }
 
 .modal-submit:hover {
-    background-color: #5a36fd;
+  background-color: #5a36fd;
 }
 
 /* breakpoints */
 
 @media (max-width: 768px) {
+  header {
+    display: flex;
+    padding: 20px 0;
+  }
 
-    header {
-        display: flex;
-        padding: 20px 0;
-    }
+  .open-nav-svg {
+    display: flex;
+    justify-content: baseline;
+    margin-left: 16px;
+    margin-top: 4px;
+    margin-right: 49px;
+    cursor: pointer;
+  }
 
-    .open-nav-svg {
-        display: flex;
-        justify-content: baseline;
-        margin-left: 16px;
-        margin-top: 4px;
-        margin-right: 49px;
-        cursor: pointer;
-    }
-    
-    h1 {
-        font-size: 1.7rem;
-    }
+  h1 {
+    font-size: 1.7rem;
+  }
 
-    .check-svg {
-        margin-top: 3px;
-        justify-content: center;
-    }
+  .check-svg {
+    margin-top: 3px;
+    justify-content: center;
+  }
 
-    nav {
-        display: none;
-    }
+  nav {
+    display: none;
+  }
 
-    nav.open {
-        display: flex;
-        position: absolute;
-        width: 290px;
-    }
+  nav.open {
+    display: flex;
+    position: absolute;
+    width: 290px;
+  }
 
-    #content {
-        padding: 5px;
-        margin: auto;
-        margin-top: 50px;
-        max-width: 800px;
-        width: 85%;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-    
-    .task {
-        display: flex;
-        padding: 4px;
-        align-items: center;
-        border-left: 2px solid;
-        border-radius: 7px;
-        margin-bottom: 12px;
-    }
+  #content {
+    padding: 5px;
+    margin: auto;
+    margin-top: 50px;
+    max-width: 800px;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .task {
+    display: flex;
+    padding: 4px;
+    align-items: center;
+    border-left: 2px solid;
+    border-radius: 7px;
+    margin-bottom: 12px;
+  }
 }
