@@ -2,7 +2,7 @@ import "./style.css";
 import * as todoManager from "./todoManager.js";
 import * as DOMController from "./domController.js";
 import * as storage from "./storage.js";
-import { format, addDays, eachDayOfInterval } from "date-fns";
+import { format, addDays, startOfDay, isWithinInterval } from "date-fns";
 
 //get projects from localStorage
 let storedProjectsArr = storage.getProjectsFromStorage();
@@ -15,14 +15,21 @@ if (storedProjectsArr.length === 0) {
     "Drink more water",
     "",
     format(new Date(), "yyyy-MM-dd"),
-    "medium",
+    "low",
   );
   todoManager.addTask(
     defaultProject,
     "Create a new project",
     "",
-    format(new Date(), "yyyy-MM-dd"),
-    "low",
+    format(addDays(new Date(), 1), "yyyy-MM-dd"),
+    "medium",
+  );
+  todoManager.addTask(
+    defaultProject,
+    "Go for a walk",
+    "",
+    format(addDays(new Date(), 4), "yyyy-MM-dd"),
+    "high",
   );
 } else {
   todoManager.storeProjectsToArray(storedProjectsArr);
@@ -133,18 +140,15 @@ function getTodayTaskCount(projects) {
 
 function getWeekTaskCount(projects) {
   let taskCount = 0;
-  const thisWeek = eachDayOfInterval({
-    start: new Date(),
-    end: addDays(new Date(), 7),
-  });
+  const start = startOfDay(new Date());
+  const end = addDays(start, 7);
 
   projects.forEach((project) => {
     project.tasks.forEach((task) => {
-      thisWeek.forEach((day) => {
-        if (task.dueDate === format(day, "yyyy-MM-dd")) {
-          taskCount++;
-        }
-      });
+      const taskDate = new Date(task.dueDate);
+      if (isWithinInterval(taskDate, { start, end })) {
+        taskCount++;
+      }
     });
   });
   return taskCount;
@@ -158,11 +162,7 @@ function updateTaskCompleteStyling() {
       (project) => project.id === projectId,
     );
     let task = project.tasks.find((task) => task.id === taskId);
-    if (!task.completed) {
-      DOMController.setTaskCompleteStyle(taskDiv, task.completed);
-    } else {
-      DOMController.setTaskCompleteStyle(taskDiv, task.completed);
-    }
+    DOMController.setTaskCompleteStyle(taskDiv, task.completed);
   });
 }
 
@@ -326,31 +326,40 @@ addProjectBtn.addEventListener("click", () => {
 //handle form submit based on current modalMode
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  if (modalMode === "addTask") {
-    let { project, title, desc, dueDate, priority } = getFormValues();
-    todoManager.addTask(project, title, desc, dueDate, priority);
-  } else if (modalMode === "editTask") {
-    let { project, title, desc, dueDate, priority } = getFormValues();
-    let taskId = currentTask.id;
-    let currentProject = currentTask.project;
-    if (currentProject != project) {
-      todoManager.moveTask(currentProject, project, taskId);
-    }
-    todoManager.editTask(project, taskId, "title", title);
-    todoManager.editTask(project, taskId, "desc", desc);
-    todoManager.editTask(project, taskId, "dueDate", dueDate);
-    todoManager.editTask(project, taskId, "priority", priority);
-  } else if (modalMode === "addProject") {
-    let title = document.getElementById("form-title").value;
-    todoManager.addProject(title);
-    DOMController.clearProjects();
-    DOMController.displayProjects(todoManager.projectArr);
-  } else if (modalMode === "editProject") {
-    let title = document.getElementById("form-title").value;
-    todoManager.editProject(currentProject, title);
-    DOMController.clearProjects();
-    DOMController.displayProjects(todoManager.projectArr);
-  }
+
+  const actions = {
+    addTask: () => {
+      let { project, title, desc, dueDate, priority } = getFormValues();
+      todoManager.addTask(project, title, desc, dueDate, priority);
+    },
+    editTask: () => {
+      let { project, title, desc, dueDate, priority } = getFormValues();
+      let taskId = currentTask.id;
+      let currentProject = currentTask.project;
+      if (currentProject != project) {
+        todoManager.moveTask(currentProject, project, taskId);
+      }
+      todoManager.editTask(project, taskId, "title", title);
+      todoManager.editTask(project, taskId, "desc", desc);
+      todoManager.editTask(project, taskId, "dueDate", dueDate);
+      todoManager.editTask(project, taskId, "priority", priority);
+    },
+    addProject: () => {
+      let title = document.getElementById("form-title").value;
+      todoManager.addProject(title);
+      DOMController.clearProjects();
+      DOMController.displayProjects(todoManager.projectArr);
+    },
+    editProject: () => {
+      let title = document.getElementById("form-title").value;
+      todoManager.editProject(currentProject, title);
+      DOMController.clearProjects();
+      DOMController.displayProjects(todoManager.projectArr);
+    },
+  };
+
+  if (actions[modalMode]) actions[modalMode]();
+
   modal.close();
   DOMController.clearTasks();
   displayCurrentView();

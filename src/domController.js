@@ -14,7 +14,7 @@ export {
 import editSvg from "./images/edit-2-svgrepo-com.svg";
 import deleteSvg from "./images/delete-svgrepo-com.svg";
 import projectSvg from "./images/folder-svgrepo-com.svg";
-import { format, addDays, eachDayOfInterval } from "date-fns";
+import { format, addDays, startOfDay, isWithinInterval } from "date-fns";
 
 function clearTasks() {
   let contentDiv = document.getElementById("content");
@@ -36,14 +36,14 @@ function createTaskElement(task, project) {
 
   let taskTitle = document.createElement("p");
   taskTitle.className = "task-title";
-  taskTitle.innerHTML = task.title;
+  taskTitle.textContent = task.title;
 
   let taskOptions = document.createElement("div");
   taskOptions.className = "task-options";
 
   let taskDate = document.createElement("p");
   taskDate.className = "task-date";
-  taskDate.innerHTML = task.dueDate;
+  taskDate.textContent = task.dueDate;
 
   let taskEdit = document.createElement("img");
   taskEdit.className = "task-edit";
@@ -85,19 +85,16 @@ function displayTodayTasks(projects) {
 
 function displayWeekTasks(projects) {
   let contentDiv = document.getElementById("content");
-  const thisWeek = eachDayOfInterval({
-    start: new Date(),
-    end: addDays(new Date(), 7),
-  });
+  const start = startOfDay(new Date());
+  const end = addDays(start, 7);
 
   projects.forEach((project) => {
     project.tasks.forEach((task) => {
-      thisWeek.forEach((day) => {
-        if (task.dueDate === format(day, "yyyy-MM-dd")) {
-          let taskDiv = createTaskElement(task, project);
-          contentDiv.appendChild(taskDiv);
-        }
-      });
+      const taskDate = new Date(task.dueDate);
+      if (isWithinInterval(taskDate, { start, end })) {
+        let taskDiv = createTaskElement(task, project);
+        contentDiv.appendChild(taskDiv);
+      }
     });
   });
 }
@@ -109,15 +106,13 @@ function displayAllTasks(projects) {
 }
 
 function setTaskPriorityColor(priority, element, property) {
-  if (priority === "high") {
-    element.style[property] = "#FF6B6B";
-  } else if (priority === "medium") {
-    element.style[property] = "#f47d2f";
-  } else if (priority === "low") {
-    element.style[property] = "#10b981";
-  } else {
-    element.style[property] = "#E0E0E0";
-  }
+  const colors = {
+    high: "#FF6B6B",
+    medium: "#f47d2f",
+    low: "#10b981",
+  };
+
+  element.style[property] = colors[priority] || "#E0E0E0";
 }
 
 function setTaskCompleteStyle(taskDiv, isCompleted) {
@@ -127,7 +122,7 @@ function setTaskCompleteStyle(taskDiv, isCompleted) {
   if (!isCompleted) {
     title.style.textDecoration = "none";
     title.style.color = "black";
-    checkbox.checsked = false;
+    checkbox.checked = false;
   } else {
     title.style.textDecoration = "line-through";
     title.style.color = "#9ca3af";
@@ -154,7 +149,7 @@ function displayProjects(projects) {
 
     let projectBtn = document.createElement("button");
     projectBtn.className = "project-btn";
-    projectBtn.innerHTML = `${project.name}`;
+    projectBtn.textContent = `${project.name}`;
 
     let projectInfo = document.createElement("div");
     projectInfo.className = "project-info";

@@ -14,10 +14,10 @@ An interactive todo list application that helps users organize tasks into projec
 
 ## Installation
 
-1. `git clone https://github.com/jetfuzz/todo-list.git`
-2. `cd todo-list`
-3. `npm install`
-4. `npm run dev`
+- `git clone https://github.com/jetfuzz/todo-list.git`
+- `cd todo-list`
+- `npm install`
+- `npm run dev`
 
 ## Technologies and Tools
 

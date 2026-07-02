@@ -16,7 +16,6 @@ export {
 let projectArr = [];
 
 class Task {
-  static counter = 1;
   constructor(title, description, dueDate, priority) {
     this.title = title;
     this.description = description;
@@ -28,7 +27,6 @@ class Task {
 }
 
 class Project {
-  static counter = 1;
   constructor(name) {
     this.name = name;
     this.tasks = [];
@@ -61,28 +59,24 @@ function editTask(project, id, property, edit) {
 }
 
 function deleteTask(project, id) {
-  let task = project.tasks.find((task) => task.id === id);
-  let index = project.tasks.indexOf(task);
+  let index = project.tasks.findIndex((task) => task.id === id);
   if (index > -1) {
     project.tasks.splice(index, 1);
   }
 }
 
 function moveTask(oldProject, newProject, id) {
-  let task = oldProject.tasks.find((task) => task.id === id);
-  let index = oldProject.tasks.indexOf(task);
+  let index = oldProject.tasks.findIndex((task) => task.id === id);
   if (index > -1) {
-    oldProject.tasks.splice(index, 1);
+    let [task] = oldProject.tasks.splice(index, 1);
+    newProject.tasks.push(task);
   }
-  newProject.tasks.push(task);
 }
 
 function toggleTaskCompletion(project, id) {
   let task = project.tasks.find((task) => task.id === id);
-  if (!task.completed) {
-    task.completed = true;
-  } else {
-    task.completed = false;
+  if (task) {
+    task.completed = !task.completed;
   }
 }
 
